@@ -42,8 +42,8 @@
   import { ref, computed } from 'vue'
   import { useRouter } from 'vue-router'
   import rio from 'src/assets/img/rio.jpg'
-  import campos from 'src/assets/img/campos.jpg'
-  import saoPaulo from 'src/assets/img/sao_paulo.jpg'
+  import salvador from 'src/assets/img/salvador.jpg'
+  import recife from 'src/assets/img/recife.jpg'
   
   export default {
     setup() {
