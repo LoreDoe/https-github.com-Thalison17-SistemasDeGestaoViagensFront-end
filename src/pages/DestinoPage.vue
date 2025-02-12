@@ -41,6 +41,9 @@
   <script>
   import { ref, computed } from 'vue'
   import { useRouter } from 'vue-router'
+  import rio from 'src/assets/img/rio.jpg'
+  import campos from 'src/assets/img/campos.jpg'
+  import saoPaulo from 'src/assets/img/sao_paulo.jpg'
   
   export default {
     setup() {
@@ -51,9 +54,9 @@
       const categoryOptions = ['Todos', 'Praia', 'Montanha', 'Cidade', 'Campo']
   
       const destinos = ref([
-        { id: 1, nome: 'Rio de Janeiro', categoria: 'Praia', imagem: 'https://source.unsplash.com/400x300/?rio' },
-        { id: 2, nome: 'Campos do Jordão', categoria: 'Montanha', imagem: 'https://source.unsplash.com/400x300/?mountain' },
-        { id: 3, nome: 'São Paulo', categoria: 'Cidade', imagem: 'https://source.unsplash.com/400x300/?city' },
+        { id: 1, nome: 'Rio de Janeiro', categoria: 'Praia', imagem: rio.jpg },
+        { id: 2, nome: 'Campos do Jordão', categoria: 'Montanha', imagem: salvador.jpg },
+        { id: 3, nome: 'São Paulo', categoria: 'Cidade', imagem: recife },
       ])
   
       const filteredDestinos = computed(() => {
