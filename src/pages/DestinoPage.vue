@@ -1,102 +1,73 @@
 <template>
-  <q-page class="destino-detalhes-page q-pa-md">
-    <div v-if="destino" class="q-mb-lg">
-      <div class="text-center q-mb-md">
-        <!-- Imagem primeiro, antes do nome e descrição -->
-        <q-img :src="destino.imagem" class="destino-img" />
-      </div>
+  <q-page class="destinos-page q-pa-md">
+    <h1 class="text-h4 text-center text-primary q-mb-lg">Destinos Disponíveis</h1>
 
-      <div class="text-center q-mb-md">
-        <h1 class="text-h3 text-weight-bold text-primary">{{ destino.nome }}</h1>
-        <p class="text-subtitle2 text-grey">{{ destino.categoria }}</p>
-      </div>
+    <q-list bordered separator class="destinos-list">
+      <q-item 
+        v-for="destino in destinos" 
+        :key="destino.id" 
+        clickable 
+        v-ripple
+        @click="irParaDetalhes(destino.id)"
+      >
+        <q-item-section avatar>
+          <q-img :src="destino.imagem" class="destino-img" />
+        </q-item-section>
 
-      <div class="q-mb-md">
-        <p class="text-body1">{{ destino.descricao }}</p>
-      </div>
+        <q-item-section>
+          <q-item-label class="text-h6 text-weight-bold">{{ destino.nome }}</q-item-label>
+          <q-item-label caption class="text-grey-7">{{ destino.categoria }}</q-item-label>
+        </q-item-section>
 
-      <q-btn color="primary" label="Reservar agora" @click="reservarDestino" class="q-mt-md" />
-    </div>
-
-    <div v-else class="text-center q-pa-lg">
-      <q-icon name="error" size="4rem" color="grey-5" />
-      <p class="text-h6 text-grey-7">Destino não encontrado</p>
-    </div>
+        <q-item-section side>
+          <q-icon name="arrow_forward" color="primary" />
+        </q-item-section>
+      </q-item>
+    </q-list>
   </q-page>
 </template>
 
 <script>
-import { ref, onMounted } from 'vue'
-import { useRoute, useRouter } from 'vue-router'
+import { ref } from 'vue'
+import { useRouter } from 'vue-router'
 
-// Importando as imagens corretamente
+// Importação correta das imagens
 import rio from 'src/assets/rio.jpg'
 import recife from 'src/assets/recife.jpg'
 import salvador from 'src/assets/salvador.jpg'
 
 export default {
-  name: 'DestinoDetalhes',
+  name: 'DestinoPage',
   setup() {
-    const route = useRoute()
     const router = useRouter()
-    const destino = ref(null)
 
-    // Lista de destinos com descrição e imagem
-    const destinos = [
-      {
-        id: 1,
-        nome: 'Rio de Janeiro',
-        categoria: 'Praia',
-        imagem: rio,  // Usando importação correta
-        descricao: 'O Rio de Janeiro é conhecido por suas belas praias, como Copacabana e Ipanema, além do icônico Cristo Redentor. A cidade oferece uma vibrante vida cultural e vistas deslumbrantes do Pão de Açúcar.'
-      },
-      {
-        id: 2,
-        nome: 'Recife',
-        categoria: 'Praia',
-        imagem: recife,  // Usando importação correta
-        descricao: 'Recife, a capital de Pernambuco, é famosa por suas praias, cultura rica e o bairro histórico de Olinda. É um destino perfeito para quem busca história, cultura e belas paisagens.'
-      },
-      {
-        id: 3,
-        nome: 'Salvador',
-        categoria: 'Cidade',
-        imagem: salvador,  // Usando importação correta
-        descricao: 'Salvador é conhecida pela sua história, suas festas vibrantes e pelas praias paradisíacas. A cidade tem uma rica herança cultural, com destaque para o Pelourinho e o Elevador Lacerda.'
-      }
-    ]
+    // Lista de destinos disponíveis
+    const destinos = ref([
+      { id: 1, nome: 'Rio de Janeiro', categoria: 'Praia', imagem: rio },
+      { id: 2, nome: 'Recife', categoria: 'Praia', imagem: recife },
+      { id: 3, nome: 'Salvador', categoria: 'Cidade', imagem: salvador },
+    ])
 
-    onMounted(() => {
-      const destinoId = parseInt(route.params.id)
-      destino.value = destinos.find(d => d.id === destinoId)
-
-      console.log('Destino selecionado:', destino.value)  // Verificando no console o valor de destino
-    })
-
-    const reservarDestino = () => {
-      console.log('Reserva realizada para:', destino.value.nome)
-      router.push('/')
+    // Função para navegar até a página de detalhes do destino
+    const irParaDetalhes = (id) => {
+      router.push(`/destino/${id}`)
     }
 
-    return { destino, reservarDestino }
+    return { destinos, irParaDetalhes }
   }
 }
 </script>
 
 <style scoped>
-.destino-detalhes-page {
-  max-width: 800px;
+.destinos-page {
+  max-width: 600px;
   margin: 0 auto;
 }
 
 .destino-img {
-  height: 250px;
-  object-fit: cover;
+  width: 60px;
+  height: 60px;
   border-radius: 8px;
+  object-fit: cover;
 }
-
-.text-subtitle2 {
-  font-style: italic;
-}
-
 </style>
