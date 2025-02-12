@@ -42,8 +42,13 @@ export default {
     ]
 
     onMounted(() => {
-      const destinoId = parseInt(route.params.id)
+      const destinoId = parseInt(route.params.id, 10)
+      console.log("ID do destino:", destinoId)  // Verifique se o valor é o esperado
       destino.value = destinos.find(d => d.id === destinoId)
+
+      if (!destino.value) {
+        console.log("Destino não encontrado!")
+      }
     })
 
     const reservarDestino = () => {
