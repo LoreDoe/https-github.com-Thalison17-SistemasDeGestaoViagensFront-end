@@ -69,6 +69,8 @@ export default {
     onMounted(() => {
       const destinoId = parseInt(route.params.id)
       destino.value = destinos.find(d => d.id === destinoId)
+
+      console.log('Destino selecionado:', destino.value)  // Verificando no console o valor de destino
     })
 
     const reservarDestino = () => {
@@ -96,4 +98,5 @@ export default {
 .text-subtitle2 {
   font-style: italic;
 }
+
 </style>
