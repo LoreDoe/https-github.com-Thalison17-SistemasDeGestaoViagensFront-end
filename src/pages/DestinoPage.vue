@@ -1,115 +1,99 @@
 <template>
-  <q-page class="destinos-page q-pa-md">
-    <div class="text-center q-mb-lg">
-      <h1 class="text-h3 text-weight-bold text-primary">Destinos</h1>
-      <p class="text-subtitle1">Encontre os melhores lugares para sua próxima viagem</p>
+  <q-page class="destino-detalhes-page q-pa-md">
+    <div v-if="destino" class="q-mb-lg">
+      <div class="text-center q-mb-md">
+        <!-- Imagem primeiro, antes do nome e descrição -->
+        <q-img :src="destino.imagem" class="destino-img" />
+      </div>
+
+      <div class="text-center q-mb-md">
+        <h1 class="text-h3 text-weight-bold text-primary">{{ destino.nome }}</h1>
+        <p class="text-subtitle2 text-grey">{{ destino.categoria }}</p>
+      </div>
+
+      <div class="q-mb-md">
+        <p class="text-body1">{{ destino.descricao }}</p>
+      </div>
+
+      <q-btn color="primary" label="Reservar agora" @click="reservarDestino" class="q-mt-md" />
     </div>
 
-    <div class="row q-col-gutter-md q-mb-md">
-      <div class="col-12 col-md-6">
-        <q-input v-model="search" outlined dense label="Buscar destino" placeholder="Digite o nome do destino">
-          <template v-slot:append>
-            <q-icon name="search" />
-          </template>
-        </q-input>
-      </div>
-      <div class="col-12 col-md-6">
-        <q-select v-model="categoryFilter" :options="categoryOptions" outlined dense label="Categoria" />
-      </div>
-    </div>
-
-    <div class="row q-col-gutter-md">
-      <div v-for="destino in filteredDestinos" :key="destino.id" class="col-12 col-md-4">
-        <q-card class="destino-card">
-          <q-img :src="destino.imagem" class="destino-img" />
-          <q-card-section>
-            <div class="text-h6">{{ destino.nome }}</div>
-            <div class="text-subtitle2 text-grey">{{ destino.categoria }}</div>
-            <q-btn color="primary" label="Ver Detalhes" @click="verDetalhes(destino.id)" class="q-mt-sm" />
-          </q-card-section>
-        </q-card>
-      </div>
-    </div>
-
-    <div v-if="filteredDestinos.length === 0" class="text-center q-pa-lg">
-      <q-icon name="location_off" size="4rem" color="grey-5" />
-      <p class="text-h6 text-grey-7">Nenhum destino encontrado</p>
+    <div v-else class="text-center q-pa-lg">
+      <q-icon name="error" size="4rem" color="grey-5" />
+      <p class="text-h6 text-grey-7">Destino não encontrado</p>
     </div>
   </q-page>
 </template>
 
 <script>
-import { ref, computed } from 'vue'
-import { useRouter } from 'vue-router'
+import { ref, onMounted } from 'vue'
+import { useRoute, useRouter } from 'vue-router'
+
+// Importando as imagens corretamente
 import rio from 'src/assets/rio.jpg'
-import salvador from 'src/assets/salvador.jpg'
 import recife from 'src/assets/recife.jpg'
+import salvador from 'src/assets/salvador.jpg'
 
 export default {
+  name: 'DestinoDetalhes',
   setup() {
+    const route = useRoute()
     const router = useRouter()
-    const search = ref('')
-    const categoryFilter = ref('Todos')
+    const destino = ref(null)
 
-    const categoryOptions = ['Todos', 'Praia', 'Montanha', 'Cidade', 'Campo']
-
-    const destinos = ref([
+    // Lista de destinos com descrição e imagem
+    const destinos = [
       {
         id: 1,
         nome: 'Rio de Janeiro',
         categoria: 'Praia',
-        imagem: rio,
-        descricao: 'O Rio de Janeiro é conhecido por suas belas praias, como Copacabana e Ipanema, além do icônico Cristo Redentor.'
+        imagem: rio,  // Usando importação correta
+        descricao: 'O Rio de Janeiro é conhecido por suas belas praias, como Copacabana e Ipanema, além do icônico Cristo Redentor. A cidade oferece uma vibrante vida cultural e vistas deslumbrantes do Pão de Açúcar.'
       },
       {
         id: 2,
-        nome: 'Salvador',
-        categoria: 'Cidade',
-        imagem: salvador,
-        descricao: 'Salvador é a capital da Bahia, famosa pelo Pelourinho, sua cultura vibrante e praias paradisíacas.'
+        nome: 'Recife',
+        categoria: 'Praia',
+        imagem: recife,  // Usando importação correta
+        descricao: 'Recife, a capital de Pernambuco, é famosa por suas praias, cultura rica e o bairro histórico de Olinda. É um destino perfeito para quem busca história, cultura e belas paisagens.'
       },
       {
         id: 3,
-        nome: 'Recife',
+        nome: 'Salvador',
         categoria: 'Cidade',
-        imagem: recife,
-        descricao: 'Recife é conhecida por suas pontes, cultura rica e pelo carnaval animado com frevo e maracatu.'
+        imagem: salvador,  // Usando importação correta
+        descricao: 'Salvador é conhecida pela sua história, suas festas vibrantes e pelas praias paradisíacas. A cidade tem uma rica herança cultural, com destaque para o Pelourinho e o Elevador Lacerda.'
       }
-    ])
+    ]
 
-    const filteredDestinos = computed(() => {
-      return destinos.value.filter(destino => {
-        const matchSearch = search.value === '' || destino.nome.toLowerCase().includes(search.value.toLowerCase())
-        const matchCategory = categoryFilter.value === 'Todos' || destino.categoria === categoryFilter.value
-        return matchSearch && matchCategory
-      })
+    onMounted(() => {
+      const destinoId = parseInt(route.params.id)
+      destino.value = destinos.find(d => d.id === destinoId)
     })
 
-    const verDetalhes = (id) => {
-      router.push(`/destinos/${id}`)
+    const reservarDestino = () => {
+      console.log('Reserva realizada para:', destino.value.nome)
+      router.push('/')
     }
 
-    return { search, categoryFilter, categoryOptions, filteredDestinos, verDetalhes }
+    return { destino, reservarDestino }
   }
 }
 </script>
 
 <style scoped>
-.destinos-page {
-  max-width: 1200px;
+.destino-detalhes-page {
+  max-width: 800px;
   margin: 0 auto;
 }
 
-.destino-card {
-  transition: transform 0.2s ease;
-}
-
-.destino-card:hover {
-  transform: translateY(-2px);
-}
-
 .destino-img {
-  height: 200px;
+  height: 250px;
   object-fit: cover;
+  border-radius: 8px;
+}
+
+.text-subtitle2 {
+  font-style: italic;
 }
 </style>
