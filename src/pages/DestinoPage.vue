@@ -41,6 +41,9 @@
 <script>
 import { ref, computed } from 'vue'
 import { useRouter } from 'vue-router'
+import rio from 'src/assets/rio.jpg'
+import salvador from 'src/assets/salvador.jpg'
+import recife from 'src/assets/recife.jpg'
 
 export default {
   setup() {
@@ -55,21 +58,21 @@ export default {
         id: 1,
         nome: 'Rio de Janeiro',
         categoria: 'Praia',
-        imagem: new URL('@/assets/img/rio.jpg', import.meta.url).href,
+        imagem: rio,
         descricao: 'O Rio de Janeiro é conhecido por suas belas praias, como Copacabana e Ipanema, além do icônico Cristo Redentor.'
       },
       {
         id: 2,
         nome: 'Salvador',
         categoria: 'Cidade',
-        imagem: new URL('@/assets/img/salvador.jpg', import.meta.url).href,
+        imagem: salvador,
         descricao: 'Salvador é a capital da Bahia, famosa pelo Pelourinho, sua cultura vibrante e praias paradisíacas.'
       },
       {
         id: 3,
         nome: 'Recife',
         categoria: 'Cidade',
-        imagem: new URL('@/assets/img/recife.jpg', import.meta.url).href,
+        imagem: recife,
         descricao: 'Recife é conhecida por suas pontes, cultura rica e pelo carnaval animado com frevo e maracatu.'
       }
     ])
