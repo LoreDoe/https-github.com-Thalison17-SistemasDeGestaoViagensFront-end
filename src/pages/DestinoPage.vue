@@ -41,9 +41,9 @@
   <script>
   import { ref, computed } from 'vue'
   import { useRouter } from 'vue-router'
-  import rio from 'src/assets/img/rio.jpg'
-  import salvador from 'src/assets/img/salvador.jpg'
-  import recife from 'src/assets/img/recife.jpg'
+  import rio from 'src/assets/rio.jpg'
+  import salvador from 'src/assets/salvador.jpg'
+  import recife from 'src/assets/recife.jpg'
   
   export default {
     setup() {
@@ -55,8 +55,8 @@
   
       const destinos = ref([
         { id: 1, nome: 'Rio de Janeiro', categoria: 'Praia', imagem: rio.jpg },
-        { id: 2, nome: 'Campos do Jordão', categoria: 'Montanha', imagem: salvador.jpg },
-        { id: 3, nome: 'São Paulo', categoria: 'Cidade', imagem: recife },
+        { id: 2, nome: 'Bahia', categoria: 'Montanha', imagem: salvador.jpg },
+        { id: 3, nome: 'Recife', categoria: 'Cidade', imagem: recife },
       ])
   
       const filteredDestinos = computed(() => {
