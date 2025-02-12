@@ -28,6 +28,11 @@
 import { ref, onMounted } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
 
+// Importando as imagens da pasta assets
+import rio from 'src/assets/img/rio.jpg'
+import recife from 'src/assets/img/recife.jpg'
+import salvador from 'src/assets/img/salvador.jpg'
+
 export default {
   name: 'DestinoDetalhes',
   setup() {
@@ -36,9 +41,9 @@ export default {
     const destino = ref(null)
 
     const destinos = [
-      { id: 1, nome: 'Rio de Janeiro', categoria: 'Praia', imagem: 'https://source.unsplash.com/400x300/?rio' },
-      { id: 2, nome: 'Campos do Jordão', categoria: 'Montanha', imagem: 'https://source.unsplash.com/400x300/?mountain' },
-      { id: 3, nome: 'São Paulo', categoria: 'Cidade', imagem: 'https://source.unsplash.com/400x300/?city' },
+      { id: 1, nome: 'Rio de Janeiro', categoria: 'Praia', imagem: rio },
+      { id: 2, nome: 'Pernambuco', categoria: 'Montanha', imagem: recife },
+      { id: 3, nome: 'Bahia', categoria: 'Cidade', imagem: salvador }
     ]
 
     onMounted(() => {
@@ -48,7 +53,7 @@ export default {
 
     const reservarDestino = () => {
       console.log('Reserva realizada para:', destino.value.nome)
-      router.push('/') // Redireciona para a página inicial
+      router.push('/')
     }
 
     return { destino, reservarDestino }
